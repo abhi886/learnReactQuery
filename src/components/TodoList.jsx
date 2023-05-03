@@ -1,18 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useTodos from "./hooks/useTodos";
 const TodoList = () => {
-  const fetchTodos = () =>
-    axios
-      .get("https://jsonplaceholder.typicode.com/albums")
-      .then((res) => res.data);
-  const {
-    data: todos,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["todos"],
-    queryFn: fetchTodos,
-  });
+  const { data: todos, error, isLoading } = useTodos();
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
   return (
