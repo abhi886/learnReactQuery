@@ -5,10 +5,15 @@ const TodoList = () => {
     axios
       .get("https://jsonplaceholder.typicode.com/albums")
       .then((res) => res.data);
-  const { data: todos, error } = useQuery({
+  const {
+    data: todos,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["todos"],
     queryFn: fetchTodos,
   });
+  if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
   return (
     <ul>
