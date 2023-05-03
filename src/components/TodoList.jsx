@@ -1,17 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState, useEffect } from "react";
 const TodoList = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
+  const fetchTodos = () =>
     axios
       .get("https://jsonplaceholder.typicode.com/albums")
-      .then((res) => setData(res.data))
-      .catch((err) => console.log(err.message));
-  }, []);
-
+      .then((res) => res.data);
+  const { data: todos, error } = useQuery({
+    queryKey: ["todos"],
+    queryFn: fetchTodos,
+  });
+  if (error) return <p>{error.message}</p>;
   return (
     <ul>
-      {data.map(({ id, title }) => (
+      {todos?.map(({ id, title }) => (
         <li key={id}>{title}</li>
       ))}
     </ul>
