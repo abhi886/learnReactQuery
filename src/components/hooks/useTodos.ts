@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import apiClient from "../services/api-client";
+import APIClient from "../services/api-client";
+const apiClient = new APIClient<Todos>("/todos");
 
 interface Todos {
   id: number;
@@ -10,11 +11,9 @@ interface Todos {
 }
 
 const useTodos = () => {
-  const fetchTodos = () =>
-    apiClient.get<Todos[]>("/albums").then((res) => res.data);
   return useQuery<Todos[], Error>({
     queryKey: ["todos"],
-    queryFn: fetchTodos,
+    queryFn: apiClient.getAll,
   });
 };
 
